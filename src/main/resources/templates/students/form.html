@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${studentDTO.id == null ? 'Add Student' : 'Edit Student'}">Student Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fdf6e3;
+            font-family: 'Georgia', serif;
+        }
+
+        .navbar {
+            background-color: #d7c4a3;
+        }
+
+        .navbar-brand, .nav-link {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #333 !important;
+        }
+
+        h2 {
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+        }
+
+        .form-label {
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .form-control {
+            border-radius: 0;
+            border: 1px solid #ccc;
+            background-color: #fffaf0;
+        }
+
+        .btn-primary {
+            background-color: #5c4b36;
+            border-color: #5c4b36;
+            border-radius: 0;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .btn-secondary {
+            background-color: #d2b48c;
+            border-color: #d2b48c;
+            color: #333;
+            border-radius: 0;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card {
+            background-color: #fffef8;
+            border-radius: 0;
+            border: 1px solid #ccc;
+        }
+
+        .text-danger {
+            font-size: 0.9em;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/">Student Course Mgmt</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-4">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/students">Students</a></li>
+                <li class="nav-item"><a class="nav-link" href="/courses">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="/enrollments">Enrollments</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="card p-4">
+        <h2 th:text="${studentDTO.id == null ? 'Add New Student' : 'Edit Student'}">Student Form</h2>
+
+        <form th:action="@{${studentDTO.id == null} ? '/students' : '/students/' + ${studentDTO.id}}"
+              th:object="${studentDTO}" method="post">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}">
+                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}">
+                <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/students" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

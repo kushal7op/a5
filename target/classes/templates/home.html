@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Course Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f0e6;
+            color: #3e3e3e;
+            font-family: 'Georgia', serif;
+        }
+
+        .navbar {
+            background-color: #d8cfc4;
+            border-bottom: 2px solid #b1a192;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #3e3e3e !important;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .navbar-brand:hover,
+        .nav-link:hover {
+            color: #6e4e37 !important;
+        }
+
+        .jumbotron {
+            background-color: #fff8e1;
+            border: 1px solid #d4c4ae;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(60, 40, 20, 0.1);
+            text-align: center;
+        }
+
+        .card {
+            background-color: #faf6f0;
+            border: 1px solid #d6cbbf;
+            box-shadow: 0 1px 3px rgba(50, 30, 10, 0.08);
+            font-family: 'Georgia', serif;
+        }
+
+        .card-title {
+            color: #5c4438;
+        }
+
+        .btn {
+            font-family: 'Courier New', monospace;
+            border-radius: 0;
+        }
+
+        .btn-primary {
+            background-color: #6e4e37;
+            border: none;
+        }
+
+        .btn-success {
+            background-color: #4e6e37;
+            border: none;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        table {
+            background-color: #fffefb;
+            border: 1px solid #d1c3af;
+        }
+
+        table thead {
+            background-color: #ede4d5;
+        }
+
+        th, td {
+            border: 1px solid #d1c3af;
+        }
+
+        .text-muted {
+            color: #7a6f60 !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">Student Course Mgmt</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/students">Students</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/courses">Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/enrollments">Enrollments</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="jumbotron">
+            <h1 class="display-5">📚 Welcome to Student Course Management</h1>
+            <p class="lead">Effortlessly manage students, courses, and enrollments with a vintage touch.</p>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h5 class="card-title">📈 Statistics</h5>
+                    <p>Total Students: <span th:text="${totalStudents}"></span></p>
+                    <p>Total Courses: <span th:text="${totalCourses}"></span></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h5 class="card-title">⚙️ Quick Actions</h5>
+                    <a href="/students/new" class="btn btn-primary me-2">Add Student</a>
+                    <a href="/courses/new" class="btn btn-success">Add Course</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card p-3">
+                    <h5 class="card-title">🗃️ Student Enrollments</h5>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Number of Courses</th>
+                                <th>Enrolled Courses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="student : ${students}">
+                                <td th:text="${student.id}"></td>
+                                <td th:text="${student.name}"></td>
+                                <td th:text="${student.email}"></td>
+                                <td th:text="${#lists.size(student.courses)}"></td>
+                                <td>
+                                    <span th:if="${#lists.isEmpty(student.courses)}" class="text-muted">No courses enrolled</span>
+                                    <span th:if="${!#lists.isEmpty(student.courses)}">
+                                        <span th:each="course, stat : ${student.courses}">
+                                            <span th:text="${course.name}"></span>
+                                            <span th:if="${!stat.last}">, </span>
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
